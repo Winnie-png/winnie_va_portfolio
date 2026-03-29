@@ -1,0 +1,1053 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Winnie Mango — Virtual Assistant</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #FAF8F5;
+    --warm-white: #F5F2ED;
+    --sand: #E8E2D9;
+    --taupe: #C9BFB2;
+    --brown: #8B7D6E;
+    --dark: #2C2520;
+    --text: #4A3F38;
+    --accent: #B5956A;
+    --accent-light: #D4B896;
+    --green: #7A8C75;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--text);
+    font-weight: 300;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(250, 248, 245, 0.92);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--sand);
+    padding: 0 5%;
+    display: flex; align-items: center; justify-content: space-between;
+    height: 64px;
+  }
+  .nav-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.35rem;
+    font-weight: 400;
+    color: var(--dark);
+    letter-spacing: 0.02em;
+    text-decoration: none;
+  }
+  .nav-links {
+    display: flex; gap: 2.5rem; list-style: none;
+  }
+  .nav-links a {
+    text-decoration: none;
+    color: var(--brown);
+    font-size: 0.82rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-weight: 400;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--accent); }
+
+  .nav-toggle {
+    display: none;
+    flex-direction: column; gap: 5px; cursor: pointer; padding: 4px;
+  }
+  .nav-toggle span {
+    display: block; width: 22px; height: 1.5px;
+    background: var(--dark); transition: 0.3s;
+  }
+
+  /* MOBILE NAV */
+  .mobile-menu {
+    display: none;
+    position: fixed; top: 64px; left: 0; right: 0; z-index: 99;
+    background: var(--cream);
+    border-bottom: 1px solid var(--sand);
+    padding: 1.5rem 5%;
+    flex-direction: column; gap: 1.2rem;
+  }
+  .mobile-menu.open { display: flex; }
+  .mobile-menu a {
+    text-decoration: none; color: var(--text);
+    font-size: 0.9rem; letter-spacing: 0.06em;
+    text-transform: uppercase; font-weight: 400;
+    padding: 0.4rem 0;
+    border-bottom: 1px solid var(--sand);
+  }
+
+  /* SECTIONS */
+  section { padding: 5rem 5%; }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex; align-items: center;
+    padding-top: 80px;
+    background: var(--cream);
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; top: -20%; right: -10%;
+    width: 55vw; height: 55vw;
+    background: radial-gradient(ellipse, rgba(181,149,106,0.12) 0%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+  }
+  .hero::after {
+    content: '';
+    position: absolute; bottom: 5%; left: -5%;
+    width: 35vw; height: 35vw;
+    background: radial-gradient(ellipse, rgba(122,140,117,0.08) 0%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+  }
+
+  .hero-inner {
+    max-width: 820px;
+    position: relative; z-index: 1;
+    animation: fadeUp 0.9s ease both;
+  }
+  .hero-eyebrow {
+    display: inline-block;
+    font-size: 0.75rem; letter-spacing: 0.16em;
+    text-transform: uppercase; color: var(--accent);
+    font-weight: 400; margin-bottom: 1.5rem;
+    padding: 0.45rem 1rem;
+    border: 1px solid var(--accent-light);
+    border-radius: 100px;
+  }
+  .hero h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(3rem, 7vw, 5.5rem);
+    font-weight: 300;
+    color: var(--dark);
+    line-height: 1.1;
+    margin-bottom: 1rem;
+    letter-spacing: -0.01em;
+  }
+  .hero h1 em {
+    font-style: italic;
+    color: var(--accent);
+  }
+  .hero-title {
+    font-size: 0.85rem; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--brown);
+    font-weight: 400; margin-bottom: 1.8rem;
+  }
+  .hero-tagline {
+    font-size: 1.15rem; color: var(--text);
+    max-width: 480px; margin-bottom: 3rem;
+    font-weight: 300;
+    line-height: 1.75;
+  }
+  .btn {
+    display: inline-block;
+    padding: 0.9rem 2.4rem;
+    background: var(--dark);
+    color: var(--cream);
+    text-decoration: none;
+    font-size: 0.82rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-weight: 400;
+    border-radius: 4px;
+    transition: background 0.25s, transform 0.2s;
+  }
+  .btn:hover {
+    background: var(--accent);
+    transform: translateY(-1px);
+  }
+  .btn-outline {
+    background: transparent;
+    color: var(--dark);
+    border: 1.5px solid var(--dark);
+    margin-left: 1rem;
+  }
+  .btn-outline:hover {
+    background: var(--dark); color: var(--cream);
+  }
+
+  /* DIVIDER */
+  .divider {
+    height: 1px; background: var(--sand);
+    margin: 0 5%;
+  }
+
+  /* SECTION LABELS */
+  .section-label {
+    font-size: 0.72rem; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--accent);
+    font-weight: 400; margin-bottom: 0.8rem;
+    display: block;
+  }
+  .section-heading {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 300;
+    color: var(--dark);
+    line-height: 1.2;
+    margin-bottom: 2rem;
+  }
+  .section-heading em {
+    font-style: italic; color: var(--accent);
+  }
+
+  /* ABOUT */
+  .about { background: var(--warm-white); }
+  .about-inner {
+    display: grid; grid-template-columns: 1fr 1.4fr; gap: 6rem;
+    align-items: center; max-width: 1100px;
+  }
+  .about-left {}
+  .about-photo {
+    width: 100%; aspect-ratio: 3/4;
+    background: var(--sand);
+    border-radius: 6px;
+    overflow: hidden;
+    position: relative;
+  }
+  .about-photo-placeholder {
+    width: 100%; height: 100%;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: 0.8rem; color: var(--brown);
+  }
+  .about-photo-placeholder svg { opacity: 0.35; }
+  .about-photo-placeholder p {
+    font-size: 0.78rem; letter-spacing: 0.08em;
+    text-transform: uppercase; opacity: 0.6;
+  }
+  .about-text p {
+    font-size: 1.05rem; line-height: 1.85;
+    color: var(--text); margin-bottom: 1.4rem;
+  }
+  .about-stats {
+    display: flex; gap: 2.5rem; margin-top: 2.5rem;
+  }
+  .stat-item {}
+  .stat-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.2rem; font-weight: 300;
+    color: var(--accent); line-height: 1;
+  }
+  .stat-label {
+    font-size: 0.75rem; text-transform: uppercase;
+    letter-spacing: 0.1em; color: var(--brown);
+    font-weight: 400; margin-top: 0.3rem;
+  }
+
+  /* SERVICES */
+  .services {}
+  .services-header {
+    max-width: 600px; margin-bottom: 3.5rem;
+  }
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.5px;
+    background: var(--sand);
+    border: 1.5px solid var(--sand);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  .service-card {
+    background: var(--cream);
+    padding: 2.5rem;
+    position: relative;
+    transition: background 0.25s;
+  }
+  .service-card:hover { background: var(--warm-white); }
+  .service-icon {
+    width: 44px; height: 44px;
+    border: 1px solid var(--sand);
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 1.5rem;
+    color: var(--accent);
+    background: var(--warm-white);
+  }
+  .service-card h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.35rem; font-weight: 400;
+    color: var(--dark); margin-bottom: 0.8rem;
+  }
+  .service-card p {
+    font-size: 0.9rem; line-height: 1.75;
+    color: var(--brown);
+  }
+
+  /* SKILLS */
+  .skills { background: var(--warm-white); }
+  .skills-layout {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 4rem; max-width: 900px;
+  }
+  .skills-col h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.5rem; font-weight: 400;
+    color: var(--dark); margin-bottom: 1.5rem;
+  }
+  .tool-list {
+    display: flex; flex-direction: column; gap: 0.6rem;
+  }
+  .tool-item {
+    display: flex; align-items: center; gap: 0.75rem;
+    padding: 0.7rem 1rem;
+    background: var(--cream);
+    border-radius: 6px;
+    border: 1px solid var(--sand);
+    font-size: 0.88rem; color: var(--text);
+    font-weight: 400;
+  }
+  .tool-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%; background: var(--accent);
+    flex-shrink: 0;
+  }
+  .skill-pill-list {
+    display: flex; flex-wrap: wrap; gap: 0.6rem;
+  }
+  .skill-pill {
+    padding: 0.5rem 1.1rem;
+    background: var(--cream);
+    border: 1px solid var(--sand);
+    border-radius: 100px;
+    font-size: 0.83rem; color: var(--text);
+    font-weight: 400;
+  }
+
+  /* PORTFOLIO */
+  .portfolio {}
+  .portfolio-header {
+    max-width: 600px; margin-bottom: 3rem;
+  }
+  .portfolio-tabs {
+    display: flex; flex-wrap: wrap; gap: 0.5rem;
+    margin-bottom: 2.5rem;
+  }
+  .tab-btn {
+    padding: 0.5rem 1.2rem;
+    border: 1px solid var(--sand);
+    border-radius: 100px;
+    background: transparent; cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.8rem; letter-spacing: 0.06em;
+    text-transform: uppercase; color: var(--brown);
+    font-weight: 400;
+    transition: all 0.2s;
+  }
+  .tab-btn:hover, .tab-btn.active {
+    background: var(--dark); color: var(--cream);
+    border-color: var(--dark);
+  }
+  .portfolio-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.2rem;
+  }
+  .portfolio-item {
+    border-radius: 8px; overflow: hidden;
+    border: 1px solid var(--sand);
+    background: var(--warm-white);
+    cursor: pointer;
+    transition: transform 0.25s, box-shadow 0.25s;
+  }
+  .portfolio-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 40px rgba(44,37,32,0.1);
+  }
+  .portfolio-thumb {
+    aspect-ratio: 4/3;
+    background: var(--sand);
+    display: flex; align-items: center; justify-content: center;
+    flex-direction: column; gap: 0.5rem;
+    color: var(--brown);
+    font-size: 0.78rem; letter-spacing: 0.06em;
+    text-transform: uppercase;
+    position: relative; overflow: hidden;
+  }
+  .portfolio-thumb input[type="file"] {
+    position: absolute; inset: 0;
+    opacity: 0; cursor: pointer; z-index: 2;
+  }
+  .portfolio-thumb img {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%; object-fit: cover;
+    z-index: 1;
+  }
+  .thumb-placeholder {
+    display: flex; flex-direction: column;
+    align-items: center; gap: 0.5rem;
+    z-index: 0; color: var(--brown);
+  }
+  .portfolio-caption {
+    padding: 1rem 1.2rem 1.2rem;
+  }
+  .portfolio-caption h4 {
+    font-size: 0.88rem; font-weight: 500;
+    color: var(--dark); margin-bottom: 0.3rem;
+  }
+  .portfolio-caption p {
+    font-size: 0.8rem; color: var(--brown);
+    line-height: 1.5;
+  }
+  .portfolio-upload-hint {
+    font-size: 0.75rem; color: var(--taupe);
+    text-align: center; margin-top: 1.5rem;
+    letter-spacing: 0.04em;
+  }
+
+  /* LIGHTBOX */
+  .lightbox {
+    display: none;
+    position: fixed; inset: 0; z-index: 200;
+    background: rgba(44,37,32,0.92);
+    align-items: center; justify-content: center;
+    padding: 2rem;
+  }
+  .lightbox.open { display: flex; }
+  .lightbox-img {
+    max-width: 90vw; max-height: 85vh;
+    border-radius: 6px; object-fit: contain;
+  }
+  .lightbox-close {
+    position: absolute; top: 1.5rem; right: 1.5rem;
+    color: #fff; font-size: 1.5rem;
+    cursor: pointer; background: none; border: none;
+    font-family: 'DM Sans', sans-serif;
+    opacity: 0.7; transition: opacity 0.2s;
+  }
+  .lightbox-close:hover { opacity: 1; }
+
+  /* CONTACT */
+  .contact { background: var(--dark); }
+  .contact .section-label { color: var(--accent-light); }
+  .contact .section-heading { color: var(--cream); }
+  .contact-layout {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 5rem; max-width: 1000px;
+  }
+  .contact-intro p {
+    color: rgba(250,248,245,0.65);
+    font-size: 1rem; line-height: 1.8;
+    margin-bottom: 2rem;
+  }
+  .contact-detail {
+    display: flex; align-items: center; gap: 0.8rem;
+    color: rgba(250,248,245,0.55);
+    font-size: 0.85rem; margin-bottom: 0.8rem;
+  }
+  .contact-detail svg { color: var(--accent); flex-shrink: 0; }
+
+  .contact-form { display: flex; flex-direction: column; gap: 1rem; }
+  .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
+  .form-group label {
+    font-size: 0.73rem; text-transform: uppercase;
+    letter-spacing: 0.1em; color: rgba(250,248,245,0.45);
+    font-weight: 400;
+  }
+  .form-group input,
+  .form-group textarea {
+    background: rgba(250,248,245,0.06);
+    border: 1px solid rgba(250,248,245,0.12);
+    border-radius: 4px;
+    padding: 0.9rem 1.1rem;
+    color: var(--cream);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.92rem; font-weight: 300;
+    transition: border-color 0.2s;
+    outline: none;
+    resize: none;
+  }
+  .form-group input:focus,
+  .form-group textarea:focus {
+    border-color: var(--accent);
+  }
+  .form-group input::placeholder,
+  .form-group textarea::placeholder {
+    color: rgba(250,248,245,0.25);
+  }
+  .btn-submit {
+    padding: 0.95rem;
+    background: var(--accent);
+    color: var(--cream);
+    border: none; border-radius: 4px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.82rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-weight: 400; cursor: pointer;
+    transition: background 0.25s, transform 0.2s;
+    margin-top: 0.5rem;
+  }
+  .btn-submit:hover {
+    background: var(--accent-light);
+    transform: translateY(-1px);
+  }
+
+  /* FOOTER */
+  footer {
+    background: var(--dark);
+    border-top: 1px solid rgba(250,248,245,0.08);
+    padding: 2rem 5%;
+    display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: 1rem;
+  }
+  footer p {
+    color: rgba(250,248,245,0.3);
+    font-size: 0.78rem;
+    letter-spacing: 0.04em;
+  }
+  .footer-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem; font-weight: 300;
+    color: rgba(250,248,245,0.5);
+    text-decoration: none;
+  }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(28px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    .nav-links { display: none; }
+    .nav-toggle { display: flex; }
+    section { padding: 4rem 5%; }
+    .about-inner { grid-template-columns: 1fr; gap: 2.5rem; }
+    .about-photo { aspect-ratio: 1/1; max-width: 300px; }
+    .skills-layout { grid-template-columns: 1fr; gap: 2rem; }
+    .contact-layout { grid-template-columns: 1fr; gap: 3rem; }
+    .btn-outline { margin-left: 0; margin-top: 0.8rem; }
+    .hero-btns { display: flex; flex-direction: column; align-items: flex-start; gap: 0.8rem; }
+    .about-stats { gap: 1.5rem; }
+    footer { flex-direction: column; align-items: flex-start; }
+  }
+  @media (max-width: 480px) {
+    .portfolio-grid { grid-template-columns: 1fr; }
+  }
+  .portfolio-card a {
+  display: inline-block;
+  padding: 0.6rem 1.2rem;
+  background: var(--dark);
+  color: var(--cream) !important;
+  text-decoration: none !important;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  letter-spacing: 0.05em;
+  transition: background 0.2s, transform 0.2s;
+}
+
+.portfolio-card a:hover {
+  background: var(--accent);
+  transform: translateY(-2px);
+}
+
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#">Winnie Mango</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#portfolio">Work</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <div class="nav-toggle" onclick="toggleMenu()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#about" onclick="toggleMenu()">About</a>
+  <a href="#services" onclick="toggleMenu()">Services</a>
+  <a href="#skills" onclick="toggleMenu()">Skills</a>
+  <a href="#portfolio" onclick="toggleMenu()">Work</a>
+  <a href="#contact" onclick="toggleMenu()">Contact</a>
+</div>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-inner">
+    <span class="hero-eyebrow">Available for new clients</span>
+    <h1>Winnie <em>Mango</em></h1>
+    <div class="hero-title">Marketing & Operations Virtual Assistant</div>
+    <p class="hero-tagline">Helping businesses stay organized, show up consistently, and grow with ease.</p>
+    <div class="hero-btns">
+      <a href="#portfolio" class="btn">View My Work</a>
+      <a href="#contact" class="btn btn-outline">Let's Connect</a>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="about-inner">
+
+    <div class="about-text">
+      <span class="section-label">About Me</span>
+      <h2 class="section-heading">The detail that makes the <em>difference</em></h2>
+
+      <p>I support online business owners and small teams by handling the day-to-day tasks that keep everything running smoothly.</p>
+      <p>From admin and operations to social media support, I create simple systems, manage content, and keep things organized so you can focus on growth.</p>
+      <p>You can expect clear communication, reliability, and consistent support you can trust.</p>
+      
+      <div class="about-stats">
+        <div class="stat-item">
+          <div class="stat-num">100%</div>
+          <div class="stat-label">Client-focused</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">4+</div>
+          <div class="stat-label">Services offered</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">6</div>
+          <div class="stat-label">Tool areas</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="divider"></div>
+<!-- SERVICES -->
+<section class="services" id="services">
+  <div class="services-header">
+    <span class="section-label">What I Do</span>
+    <h2 class="section-heading">How I can support your <em>business</em></h2>
+      <p style="color:var(--brown); font-size:0.95rem;">
+        Simple, reliable support to help you stay organized, consistent, and focused on growth.
+      </p>
+  </div>
+  <div class="services-grid">
+
+    <div class="service-card">
+      <div class="service-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/>
+        </svg>
+      </div>
+      <h3>Admin & Operations Support</h3>
+      <p>Inbox and calendar management, data entry, file organization, and workflow setup to keep your business running smoothly and efficiently.</p>
+    </div>
+
+    <div class="service-card">
+      <div class="service-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M22 4s-2.5 2.5-5 5c-1.5 1.5-2 4-5 5s-5 1-7 3"/><circle cx="5" cy="19" r="2"/>
+        </svg>
+      </div>
+      <h3>Social Media Support</h3>
+      <p>Content scheduling, caption writing, Canva design, and content planning to help you stay consistent and grow your online presence.</p>
+    </div>
+
+    <div class="service-card">
+      <div class="service-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 9l10 6 10-6"/>
+        </svg>
+      </div>
+      <h3>Email & Calendar Management</h3>
+      <p>Stay on top of your inbox and appointments without the overwhelm. I organize, filter, and respond on your behalf — keeping your schedule clear and your communication professional.</p>
+    </div>
+
+    <div class="service-card">
+      <div class="service-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M3 3h18v4H3z"/><path d="M3 10h18v4H3z"/><path d="M3 17h18v4H3z"/>
+        </svg>
+      </div>
+      <h3>Systems Setup & Organization</h3>
+      <p>I set up simple, practical systems using tools like Trello, Google Workspace, and HubSpot — helping you stay organized and work more efficiently from day one.</p>
+    </div>
+
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SKILLS -->
+<section class="skills" id="skills">
+  <span class="section-label">Tools & Skills</span>
+  <h2 class="section-heading" style="margin-bottom:3rem;">Equipped to <em>deliver</em></h2>
+  <div class="skills-layout">
+    <div class="skills-col">
+      <h3>Tools I Work With</h3>
+      <div class="tool-list">
+        <div class="tool-item"><span class="tool-dot"></span> Trello</div>
+        <div class="tool-item"><span class="tool-dot"></span> Google Workspace</div>
+        <div class="tool-item"><span class="tool-dot"></span> HubSpot</div>
+        <div class="tool-item"><span class="tool-dot"></span> Mailchimp</div>
+        <div class="tool-item"><span class="tool-dot"></span> Meta Ads Manager (basic)</div>
+        <div class="tool-item"><span class="tool-dot"></span> ScoreApp</div>
+        <div class="tool-item"><span class="tool-dot"></span> Canva</div>
+      </div>
+    </div>
+    <div class="skills-col">
+      <h3>What I Bring</h3>
+      <div class="skill-pill-list">
+        <span class="skill-pill">Content Planning</span>
+        <span class="skill-pill">Admin Support</span>
+        <span class="skill-pill">Social Media Management</span>
+        <span class="skill-pill">Workflow Organization</span>
+        <span class="skill-pill">Basic CRM Management</span>
+        <span class="skill-pill">Email & Calendar Management</span>
+        <span class="skill-pill">Basic Ad Setup</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- FEATURED WORK / CASE STUDY SECTION -->
+
+<section id="portfolio" class="portfolio">
+
+  <div class="portfolio-header">
+    <span class="section-label">Featured Work</span>
+    <h2 class="section-heading">Selected <em>case studies</em></h2>
+    <p style="color:var(--brown); max-width:700px;">
+      A collection of mock client projects demonstrating how I support businesses with marketing operations, systems, and workflow organization.
+    </p>
+  </div>
+
+  <div class="portfolio-grid">
+
+    <!-- ITEM -->
+    <div class="portfolio-card">
+      <h4>Marketing & Operations Case Study</h4>
+      <p>End-to-end breakdown of strategy, systems, and execution for a mock client.</p>
+      <a href="https://docs.google.com/document/d/1BcfdZPG5nZfh5pXilphHCYpudmQTh63w-ML1qD2nJ5Q/edit?usp=drivesdk" target="_blank">
+        View Case Study
+      </a>
+    </div>
+
+    <div class="portfolio-card">
+      <h4>Mock Client – Brand Overview</h4>
+      <p>Audience insights, positioning, and brand structure.</p>
+      <a href="https://docs.google.com/document/d/1UF1vC2t3Q_BWlyI_G8J3HngGWPd2hJJcLPQibD8ENI4/edit?usp=drivesdk" target="_blank">
+        View Document
+      </a>
+    </div>
+
+    <div class="portfolio-card">
+      <h4>VA Day 1 Workflow</h4>
+      <p>Operational workflow showing onboarding and task structuring.</p>
+      <a href="https://docs.google.com/document/d/18ksbCjTGmnmIBR9OQ47FfVH75zj_WlzoyFbR59HpQ7g/edit?usp=drivesdk" target="_blank">
+        View Workflow
+      </a>
+    </div>
+
+    <div class="portfolio-card">
+      <h4>Lead Generation Workflow</h4>
+      <p>System for identifying, tracking, and converting leads.</p>
+      <a href="https://docs.google.com/document/d/18ukYx3OJlBGWMNVE_IRKAbpFzB2rNqun3YgFxcPWtQw/edit?usp=drivesdk" target="_blank">
+        View Workflow
+      </a>
+    </div>
+
+    <div class="portfolio-card">
+      <h4>Weekly Marketing Checklist</h4>
+      <p>Structured checklist for consistent marketing execution.</p>
+      <a href="https://docs.google.com/document/d/1DyAnK9NIr8ixvVQ-1IjQ2uF81SRbvQ9WmV6eya2gmx0/edit?usp=drivesdk" target="_blank">
+        View Checklist
+      </a>
+    </div>
+
+    <div class="portfolio-card">
+      <h4>Weekly Marketing Report</h4>
+      <p>Performance tracking and reporting for campaigns.</p>
+      <a href="https://docs.google.com/spreadsheets/d/17dxOR2Lf63EXaQp7NH8wcSyC4Ul-0eKgiYE5Cn-2Yy0/edit?usp=drivesdk" target="_blank">
+        View Report
+      </a>
+    </div>
+
+    <div class="portfolio-card">
+      <h4>Collaboration Outreach</h4>
+      <p>Examples of outreach messaging and partnership strategy.</p>
+      <a href="https://docs.google.com/document/d/1ryq0AlGJEmsx8Lda-OiU92KMB2tsvFMUTcX7Dl9IopI/edit?usp=drivesdk" target="_blank">
+        View Outreach
+      </a>
+    </div>
+
+    <div class="portfolio-card">
+      <h4>Content Repurposing System</h4>
+      <p>Turning one core idea into multiple platform-ready assets.</p>
+      <a href="https://docs.google.com/document/d/1RLDZghPWUHhqHTa1LF4VOJ7wClOaUNHKlTwYCHRJcjw/edit?usp=drivesdk" target="_blank">
+        View System
+      </a>
+    </div>
+
+  </div>
+
+</section>
+
+<div class="divider"></div>
+<!-- PORTFOLIO -->
+<section class="portfolio" id="portfolio">
+  <div class="portfolio-header">
+    <span class="section-label">Portfolio</span>
+    <h2 class="section-heading">Selected <em>client work</em> & case studies</h2>
+    <p style="color:var(--brown); font-size:0.95rem; max-width:600px;">
+          A collection of mock client projects demonstrating how I support businesses with marketing operations, automation, and organized systems across multiple functions.
+    </p>
+  </div>
+
+  <div class="portfolio-tabs" id="portfolioTabs">
+    <button class="tab-btn active" onclick="filterPortfolio('all', this)">All</button>
+    <button class="tab-btn" onclick="filterPortfolio('admin', this)">Admin & Operations</button>
+    <button class="tab-btn" onclick="filterPortfolio('ads', this)">Advertising</button>
+    <button class="tab-btn" onclick="filterPortfolio('email', this)">Email Marketing</button>
+    <button class="tab-btn" onclick="filterPortfolio('leads', this)">Lead Generation</button>
+    <button class="tab-btn" onclick="filterPortfolio('social', this)">Social Media</button>
+    <button class="tab-btn" onclick="filterPortfolio('systems', this)">Systems & Processes</button>
+  </div>
+
+  <div class="portfolio-grid" id="portfolioGrid">
+
+  <!-- ADVERTISING -->
+  <div class="portfolio-item ads">
+    <div class="portfolio-thumb" onclick="openImage(this)">
+      <img src="images/Weekly_Marketing_Performance_Report.png" alt="Weekly marketing report">
+    </div>
+    <div class="portfolio-caption">
+      <h4>Weekly Marketing Report</h4>
+      <p>Performance tracking and reporting for ad campaigns.</p>
+    </div>
+  </div>
+
+  <div class="portfolio-item ads">
+    <div class="portfolio-thumb"
+    onclick="openImage(this)">
+      <img src="images/Ad_Creative_Preview.png" alt="Ad creative preview">
+    </div>
+    <div class="portfolio-caption">
+      <h4>Ad Creative Preview</h4>
+      <p>Visual assets used for paid advertising campaigns.</p>
+    </div>
+  </div>
+
+  <!-- EMAIL MARKETING -->
+  <div class="portfolio-item email">
+    <div class="portfolio-thumb" onclick="openImage(this)">
+      <img src="images/Mailchimp_Campaign_Preview.png" alt="Mailchimp campaign">
+    </div>
+    <div class="portfolio-caption">
+      <h4>Email Campaign</h4>
+      <p>Email marketing campaign design and execution.</p>
+    </div>
+  </div>
+
+  <div class="portfolio-item email">
+    <div class="portfolio-thumb" onclick="openImage(this)">
+      <img src="images/Email_Nurture_Configuration.png" alt="Email nurture workflow">
+    </div>
+    <div class="portfolio-caption">
+      <h4>Email Nurture Workflow</h4>
+      <p>Automated email sequence and audience nurturing setup.</p>
+    </div>
+  </div>
+
+  <!-- LEAD GENERATION -->
+  <div class="portfolio-item leads">
+    <div class="portfolio-thumb"
+    onclick="openImage(this)">
+      <img src="images/LeadGen_LandingPage_AlignedLiving.png" alt="Landing page">
+    </div>
+    <div class="portfolio-caption">
+      <h4>Landing Page</h4>
+      <p>Conversion-optimized landing page for lead capture.</p>
+    </div>
+  </div>
+
+  <div class="portfolio-item leads">
+    <div class="portfolio-thumb" onclick="openImage(this)">
+      <img src="images/HubSpot_Lead_Pipeline_Management.png" alt="HubSpot pipeline">
+    </div>
+    <div class="portfolio-caption">
+      <h4>Lead Pipeline Management</h4>
+      <p>Tracking and managing leads through HubSpot pipeline stages.</p>
+    </div>
+  </div>
+
+  <!-- ADMIN & OPERATIONS -->
+  <div class="portfolio-item admin">
+    <div class="portfolio-thumb" onclick="openImage(this)">
+      <img src="images/Lead_Inbox_Organization.png" alt="Inbox organization">
+    </div>
+    <div class="portfolio-caption">
+      <h4>Inbox Organization</h4>
+      <p>Structured email and lead inbox management system.</p>
+    </div>
+  </div>
+
+  <div class="portfolio-item admin">
+    <div class="portfolio-thumb"
+    onclick="openImage(this)">
+      <img src="images/Trello_Board_Workflow.png" alt="Trello board">
+    </div>
+    <div class="portfolio-caption">
+      <h4>Trello Workflow</h4>
+      <p>Task and project tracking using Trello boards.</p>
+    </div>
+  </div>
+
+  <!-- SYSTEMS & PROCESSES -->
+  <div class="portfolio-item systems">
+    <div class="portfolio-thumb" onclick="openImage(this)">
+      <img src="images/Marketing_Project_Management.png" alt="Marketing project management">
+    </div>
+    <div class="portfolio-caption">
+      <h4>Marketing Project Management</h4>
+      <p>End-to-end workflow for managing marketing projects.</p>
+    </div>
+  </div>
+
+  <div class="portfolio-item systems">
+    <div class="portfolio-thumb"
+    onclick="openImage(this)">
+      <img src="images/Marketing_Project_Management.png" alt="Workflow example">
+    </div>
+    <div class="portfolio-caption">
+      <h4>Systems Workflow</h4>
+      <p>Operational processes supporting marketing execution.</p>
+    </div>
+  </div>
+
+  <!-- SOCIAL MEDIA -->
+  <div class="portfolio-item social">
+    <div class="portfolio-thumb" onclick="openImage(this)">
+      <img src="images/Meta_Suite_Content_Calendar.png" alt="Content calendar">
+    </div>
+    <div class="portfolio-caption">
+      <h4>Content Calendar</h4>
+      <p>Planned content strategy using Meta Business Suite.</p>
+    </div>
+  </div>
+
+  <div class="portfolio-item social">
+    <div class="portfolio-thumb" onclick="openImage(this)">
+      <img src="images/Meta_Suite_Scheduled_Content.png" alt="Scheduled content">
+    </div>
+    <div class="portfolio-caption">
+      <h4>Scheduled Content</h4>
+      <p>Posts scheduled and organized for consistent publishing.</p>
+    </div>
+  </div>
+
+</div>
+</section>
+
+<div class="divider"></div>
+
+<!-- CONTACT -->
+<section class="contact" id="contact">
+  <div class="contact-layout">
+    <div class="contact-intro">
+      <span class="section-label">Get in Touch</span>
+      <h2 class="section-heading">Let's work <em>together</em></h2>
+      <p>Ready to delegate and get your time back? I'd love to learn about your business and how I can support you. Send me a message and let's start the conversation.</p>
+      <div class="contact-detail">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 9l10 6 10-6"/>
+        </svg>
+        winnienmango@gmail.com
+      </div>
+      <div class="contact-detail">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>
+        </svg>
+        Response within 24 hours
+      </div>
+    </div>
+    <form class="contact-form" onsubmit="handleSubmit(event)">
+      <div class="form-group">
+        <label>Your Name</label>
+        <input type="text" placeholder="Jane Smith" required>
+      </div>
+      <div class="form-group">
+        <label>Email Address</label>
+        <input type="email" placeholder="jane@yourbusiness.com" required>
+      </div>
+      <div class="form-group">
+        <label>Message</label>
+        <textarea rows="5" placeholder="Tell me a bit about your business and what you need help with..." required></textarea>
+      </div>
+      <button type="submit" class="btn-submit">Send Message</button>
+    </form>
+  </div>
+</section>
+
+<footer>
+  <a class="footer-logo" href="#">Winnie Mango</a>
+  <p>© 2026 Winnie Mango · Virtual Assistant</p>
+</footer>
+
+<!-- LIGHTBOX -->
+<div id="lightbox" class="lightbox" onclick="closeLightbox()">
+
+  <!-- Close button -->
+  <span class="lightbox-close" onclick="event.stopPropagation(); closeLightbox()">✕</span>
+
+  <!-- Previous -->
+  <button class="lightbox-prev" onclick="event.stopPropagation(); prevSlide()">‹</button>
+
+  <!-- Image -->
+  <img id="lightboxImg" class="lightbox-img" src="" alt="Preview">
+
+  <!-- Next -->
+  <button class="lightbox-next" onclick="event.stopPropagation(); nextSlide()">›</button>
+
+</div>
+
+<script>
+  // Portfolio data
+  
+  function filterPortfolio(category, btn) {
+  const items = document.querySelectorAll('.portfolio-item');
+
+  items.forEach(item => {
+    if (category === 'all') {
+      item.style.display = 'block';
+    } else {
+      item.style.display = item.classList.contains(category) ? 'block' : 'none';
+    }
+  });
+
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+</script>
+<script src="main.js"></script>
+</body>
+</html>
